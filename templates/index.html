@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <title>FAKEMAL</title>
+</head>
+
+<body>
+    <div id="topBar">
+        <div id="inputForm">
+            <h2>FAKEMAL</h2>
+            <form action="/" method="POST">
+                <input type="text" name="year" placeholder="year" id="year" required>
+                <input type="text" name="season" placeholder="season" id="season" required>
+                <input type="submit" value="search" id="search">
+            </form>
+        </div>
+        <div id="info">
+            <h4>{{year}}/{{season}}</h4>
+        </div>
+    </div>
+    <div id="container">
+        {% for item in animes %}
+        <div id="innerItem">
+            <div id="anime_poster">
+                <img src="{{item.images.jpg.image_url}}" alt="">
+            </div>
+            <div id="anime_name">
+                <b>{{item.title}}</b>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
