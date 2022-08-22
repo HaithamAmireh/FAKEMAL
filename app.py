@@ -27,6 +27,17 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    anime = "*"
+    if request.method == "POST":
+        anime = request.form.get("anime")
+    api = "https://api.jikan.moe/v4/anime?q=" + anime + "&sfw"
+    res = requests.get(api)
+    data = json.loads(res.text)
+    return render_template("home.html", anime=data["data"], title="FAKEMAL:Home")
+
+
+@app.route("/seasonal", methods=["GET", "POST"])
+def seasonal():
     year = str(datetime.now().year)
     season = get_season(date.today())
     if request.method == "POST":
@@ -36,7 +47,11 @@ def home():
     # TODO: Add page handling
     res = requests.get(api)
     data = json.loads(res.text)
-    return render_template("index.html", animes=data["data"], year=year, season=season)
+    pages = data["pagination"]["last_visible_page"]
+    print(pages)
+    return render_template(
+        "seasonal.html", animes=data["data"], year=year, season=season, title="FAKEMAL:Seasonal"
+    )
 
 
 @app.route("/random")
@@ -47,4 +62,4 @@ def random_anime():
         api = "https://api.jikan.moe/v4/anime/" + str(randint(1, 10000))
         res = requests.get(api)
     data = json.loads(res.text)
-    return render_template("random.html", anime=data["data"])
+    return render_template("random.html", anime=data["data"], title="Random anime")

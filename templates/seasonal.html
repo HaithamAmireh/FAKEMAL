@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block nav %}
+<div class="inputForm">
+    <form action="/seasonal" method="POST">
+        <input type="text" name="year" placeholder="Year" id="year" required>
+        <input type="text" name="season" placeholder="Season" id="season" required>
+        <input type="submit" value="search" id="search">
+    </form>
+</div>
+{% endblock %}
+{% block main %}
+<div id="topBar">
+    <div id="info">
+        <h4>{{year}}/{{season}}</h4>
+    </div>
+</div>
+<div id="container">
+    {% for item in animes %}
+    <div id="innerItem">
+        <div id="anime_poster">
+            <img src="{{item.images.jpg.image_url}}" alt="">
+        </div>
+        <div id="anime_synopsis">
+            <p>{{item.synopsis}}</p>
+        </div>
+        <div id="anime_name">
+            <b>{{item.title}}</b>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+</html>
