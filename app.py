@@ -38,12 +38,13 @@ def home():
 
 @app.route("/seasonal", methods=["GET", "POST"])
 def seasonal():
+    api = "https://api.jikan.moe/v4/seasons/now"
     year = str(datetime.now().year)
     season = get_season(date.today())
     if request.method == "POST":
         year = request.form.get("year")
         season = request.form.get("season")
-    api = "https://api.jikan.moe/v4/seasons/" + year + "/" + season
+        api = "https://api.jikan.moe/v4/seasons/" + year + "/" + season
     # TODO: Add page handling
     res = requests.get(api)
     data = json.loads(res.text)
@@ -56,10 +57,10 @@ def seasonal():
 
 @app.route("/random")
 def random_anime():
-    api = "https://api.jikan.moe/v4/anime/" + str(randint(1, 10000))
+    api = "https://api.jikan.moe/v4/random/anime"
     res = requests.get(api)
     while res.status_code != 200:
-        api = "https://api.jikan.moe/v4/anime/" + str(randint(1, 10000))
+        api = "https://api.jikan.moe/v4/random/anime"
         res = requests.get(api)
     data = json.loads(res.text)
-    return render_template("random.html", anime=data["data"], title="Random anime")
+    return render_template("random.html", anime=data["data"], title="FAKEMAL:Random")
