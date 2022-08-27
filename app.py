@@ -1,6 +1,5 @@
 import json
 from datetime import date, datetime
-from random import randint
 
 import requests
 from flask import Flask, render_template, request
@@ -55,7 +54,7 @@ def seasonal():
     )
 
 
-@app.route("/random")
+@app.route("/random", methods=["GET", "POST"])
 def random_anime():
     api = "https://api.jikan.moe/v4/random/anime"
     res = requests.get(api)
