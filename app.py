@@ -1,6 +1,8 @@
 import json
 from datetime import date, datetime
+from multiprocessing import Value
 
+import numpy as np
 import requests
 from flask import Flask, render_template, request
 
@@ -20,6 +22,8 @@ def get_season(now):
     now = now.replace(year=Y)
     return next(season for season, (start, end) in seasons if start <= now <= end)
 
+
+counter = Value("i", 1)
 
 app = Flask(__name__)
 
@@ -44,13 +48,19 @@ def seasonal():
         year = request.form.get("year")
         season = request.form.get("season")
         api = "https://api.jikan.moe/v4/seasons/" + year + "/" + season
-    # TODO: Add page handling
     res = requests.get(api)
     data = json.loads(res.text)
     pages = data["pagination"]["last_visible_page"]
-    print(pages)
+    full_data = data["data"]
+    while pages > 1:
+        api = "https://api.jikan.moe/v4/seasons/" + year + "/" + season + "?page=" + str(pages)
+        res = requests.get(api)
+        data = json.loads(res.text)
+        full_data = np.append(full_data, data["data"])
+        pages -= 1
+    print(len(full_data))
     return render_template(
-        "seasonal.html", animes=data["data"], year=year, season=season, title="FAKEMAL:Seasonal"
+        "seasonal.html", animes=full_data, year=year, season=season, title="FAKEMAL:Seasonal"
     )
 
 
@@ -63,3 +73,42 @@ def random_anime():
         res = requests.get(api)
     data = json.loads(res.text)
     return render_template("random.html", anime=data["data"], title="FAKEMAL:Random")
+
+
+@app.route("/top_manga", methods=["GET", "POST"])
+def top_manga():
+    api = "https://api.jikan.moe/v4/top/manga"
+    res = requests.get(api)
+    data = json.loads(res.text)
+    if request.method == "POST":
+        with counter.get_lock():
+            counter.value += 1
+            next_page = counter.value
+        api = "https://api.jikan.moe/v4/top/manga" + "?page=" + str(next_page)
+        res = requests.get(api)
+        data = json.loads(res.text)
+        return render_template(
+            "top_manga.html",
+            manga=data["data"],
+            title="FAKEMAL:Top Manga",
+            current_page_number=counter.value,
+            next_page_number=next_page,
+        )
+    return render_template(
+        "top_manga.html", manga=data["data"], title="FAKEMAL:Top Manga", current_page_number=1
+    )
+
+
+@app.route("/top_anime", methods=["GET", "POST"])
+def top_anime():
+    api = "https://api.jikan.moe/v4/top/anime"
+    res = requests.get(api)
+    data = json.loads(res.text)
+    if request.method == "POST":
+        with counter.get_lock():
+            counter.value += 1
+            next_page = counter.value
+        api = "https://api.jikan.moe/v4/top/anime" + "?page=" + str(next_page)
+        res = requests.get(api)
+        data = json.loads(res.text)
+    return render_template("top_anime.html", anime=data["data"], title="FAKEMAL:Top Anime")

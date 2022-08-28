@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 {% block nav %}
-<div class="inputForm">
-    <form action="/" method="POST">
-        <input type="text" name="anime" placeholder="Anime" id="anime" required>
-        <input type="submit" value="search" id="search">
-    </form>
-</div>
 {% endblock %}
 {% block main %}
+<div id="topBar">
+    <div id="info">
+        <h4>Top Manga</h4>
+    </div>
+</div>
 <div id="container">
-    {% for item in anime %}
+    {% for item in manga %}
     <div id="innerItem">
         <div id="image_title">
             <div id="anime_poster">
@@ -25,4 +24,10 @@
     </div>
     {% endfor %}
 </div>
+<form action="/top_manga" method="POST">
+    <p>{{current_page_number}}</p>
+    <button id="#nextBtn" name="next_page" value="next_page">{{next_page_number}}</button>
+</form>
 {% endblock %}
+
+</html>

@@ -1,5 +1,5 @@
 body {
-    background-color: #eeeeee;
+    background-color: #38988c;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -24,13 +24,15 @@ body {
     height:fit-content;
     margin: 8px 3px;
     padding: 10px;
-    background-color: rgb(161, 165, 133);
+    background-color: #C38D9E;
     border-radius: 15px;
 }
 
 #innerItem:hover {
-    background-color: rgb(107, 110, 88);
+    background-color: #8d6572;
+    flex-direction: row;
     cursor: pointer;
+    width: 500px;
 }
 
 img {
@@ -59,8 +61,8 @@ img {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-content: space-between;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: baseline;
 }
 
 #topBar {
@@ -91,34 +93,34 @@ form a:visited {
     color: black;
 }
 
-h2 a {
+#appTitle a{
     text-decoration: none;
     color: rgb(255, 255, 255);
-    -webkit-text-stroke: 1px black;
+    -webkit-text-stroke: 1px #38988c;
     width: 20px;
     border-radius: 40px;
-    padding: 20px;
+    padding: 10px;
     font-size: 30px;
 }
 
-h2 a:visited {
+#appTitle a:visited {
     color: rgb(255, 255, 255);
 }
 
 #navbar {
     display: flex;
-    background-color: rgb(88, 88, 211);
+    position: sticky;
+    top: 0;
+    background-color: #41B3A3;
     align-items: baseline;
     justify-content: space-between;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
 }
 
 input[type=text] {
     padding: 5px;
     border-radius: 10px;
     font-size: 15px;
-    width: 70%;
+    width: 40%;
     margin-bottom: 15px;
 }
 
@@ -131,24 +133,91 @@ input[type=submit] {
 
 #anime_synopsis {
     display: none;
+    height: 318px;
+    padding: 0;
+    margin: 0;
 }
 
 #anime_synopsis:hover {
     display: block;
 }
 
-#anime_synopsis:hover+#anime_name {
-    display: none;
-}
-
 #innerItem:hover img {
-    display: none;
+    display: block;
 }
 
 #innerItem:hover #anime_synopsis {
     display: block;
-    overflow: scroll;
     overflow-x: hidden;
+}
+
+#innerItem:hover #anime_name {
+    text-align: left;
+    width: 225px;
+    height: 18px;
+    overflow:visible;
+    display: inline-block;
+    /* text-overflow: ellipsis; */
+    white-space: wrap;
+    padding: 10px;
+}
+#anime_synopsis::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #C38D9E;
+}
+
+#anime_synopsis::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #C38D9E;
+}
+
+#anime_synopsis::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #E8A87C;
+}
+
+#navBarItems {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#navigation {
+    display: flex;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    margin-top: 10px;
+}
+
+#navigation a {
+    padding: 8px;
+    text-decoration: none;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #38988c;
+    font-size: 17px;
+    background-color: #E27D60;
+    color: black;
+    border-bottom-width: 0;
+}
+#navigation a:visited {
+    color: black;
+}
+
+#image_title svg {
+    width: 17px
+}
+
+#nextBtn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 @media only screen and (max-width: 600px) {

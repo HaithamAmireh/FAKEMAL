@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% block nav %}
-<div class="inputForm">
-    <form action="/" method="POST">
-        <input type="text" name="anime" placeholder="Anime" id="anime" required>
-        <input type="submit" value="search" id="search">
-    </form>
-</div>
 {% endblock %}
 {% block main %}
+<div id="topBar">
+    <div id="info">
+        <h4>Top Anime</h4>
+    </div>
+</div>
 <div id="container">
     {% for item in anime %}
     <div id="innerItem">
@@ -24,5 +23,10 @@
         </div>
     </div>
     {% endfor %}
+    <form action="/top_anime" method="POST">
+    <button id="nextBtn" name="next_page" value="next_page">Next Page</button>
+    </form>
 </div>
 {% endblock %}
+
+</html>
