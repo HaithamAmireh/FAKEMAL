@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block nav %}
+<div class="inputForm">
+    <form action="/pictures" method="POST">
+        <input type="text" name="anime" placeholder="Anime" id="anime" required>
+        <input type="submit" value="search" id="search">
+    </form>
+</div>
+{% endblock %}
+{% block main %}
+<div id="topBar">
+    <div id="info">
+        <h4>{{searched_anime}}</h4>
+    </div>
+</div>
+<div id="container">
+    {% for item in animePictures %}
+    <div id="innerItemPicture">
+            <div id="anime_poster">
+                <img src="{{item.jpg.large_image_url}}" alt="" id="poster">
+            </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

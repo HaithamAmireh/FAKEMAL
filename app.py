@@ -84,19 +84,10 @@ def top_manga():
         with counter.get_lock():
             counter.value += 1
             next_page = counter.value
-        api = "https://api.jikan.moe/v4/top/manga" + "?page=" + str(next_page)
+            api = "https://api.jikan.moe/v4/top/manga" + "?page=" + str(next_page)
         res = requests.get(api)
         data = json.loads(res.text)
-        return render_template(
-            "top_manga.html",
-            manga=data["data"],
-            title="FAKEMAL:Top Manga",
-            current_page_number=counter.value,
-            next_page_number=next_page,
-        )
-    return render_template(
-        "top_manga.html", manga=data["data"], title="FAKEMAL:Top Manga", current_page_number=1
-    )
+    return render_template("top_manga.html", manga=data["data"], title="FAKEMAL:Top Manga")
 
 
 @app.route("/top_anime", methods=["GET", "POST"])
@@ -108,7 +99,45 @@ def top_anime():
         with counter.get_lock():
             counter.value += 1
             next_page = counter.value
-        api = "https://api.jikan.moe/v4/top/anime" + "?page=" + str(next_page)
+            api = "https://api.jikan.moe/v4/top/anime" + "?page=" + str(next_page)
         res = requests.get(api)
         data = json.loads(res.text)
     return render_template("top_anime.html", anime=data["data"], title="FAKEMAL:Top Anime")
+
+
+@app.route("/pictures", methods=["GET", "POST"])
+def pictures():
+    picApi = "https://api.jikan.moe/v4/anime/1/pictures"
+    searched_anime = ""
+    if request.method == "POST":
+        anime = request.form.get("anime")
+        searchApi = "https://api.jikan.moe/v4/anime?q=" + anime + "&sfw"
+        res = requests.get(searchApi)
+        data = json.loads(res.text)
+        searched_anime = data["data"][0]["title"]
+        anime_id = data["data"][0]["mal_id"]
+        picApi = "https://api.jikan.moe/v4/anime/" + str(anime_id) + "/pictures"
+    res = requests.get(picApi)
+    data = json.loads(res.text)
+    return render_template(
+        "pictures.html",
+        animePictures=data["data"],
+        title="FAKEMAL:Pictures",
+        searched_anime=searched_anime,
+    )
+
+    # for id in data["data"]:
+    #     anime_id.append(id["mal_id"])
+    # for i in range(len(anime_id) - 1):
+    #     picApi = "https://api.jikan.moe/v4/anime/" + str(anime_id[i]) + "/pictures"
+    #     res = requests.get(picApi)
+    #     data = json.loads(res.text)
+    #     image_url.append(data["data"])
+    #     time.sleep(1)
+    # print(image_url)
+    # return render_template(
+    #     "pictures.html",
+    #     animePictures=image_url[0],
+    #     title="FAKEMAL:Pictures",
+    #     searched_anime=searched_anime,
+    # )

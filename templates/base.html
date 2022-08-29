@@ -14,6 +14,7 @@
         href="{{ url_for('static', filename='favicon_io/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16"
         href="{{ url_for('static', filename='favicon_io/favicon-16x16.png') }}">
+    <script type=text/javascript src="{{ url_for('static', filename='js/app.js') }}" defer></script>
     <title>{{ title }}</title>
 </head>
 
@@ -39,12 +40,17 @@
                 <a href="/top_manga">
                     Top Manga
                 </a>
+                <a href="/pictures">
+                    Pictures
+                </a>
             </div>
         </div>
         {% block nav %}
         {% endblock %}
     </div>
     {% block main %}
+    {% endblock %}
+    {% block beforeFooter %}
     {% endblock %}
 </body>
 

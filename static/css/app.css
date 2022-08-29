@@ -215,9 +215,29 @@ input[type=submit] {
 }
 
 #nextBtn {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+}
+
+#pagination {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+#innerItemPicture {
+    display: flex;
+    flex-direction: column;
+    width: 413px;
+    height:fit-content;
+    margin: 8px 3px;
+    padding: 10px;
+    background-color: #C38D9E;
+    border-radius: 15px;
+}
+
+#innerItemPicture img {
+    width: 413px;
+    height: 500px;
 }
 
 @media only screen and (max-width: 600px) {
